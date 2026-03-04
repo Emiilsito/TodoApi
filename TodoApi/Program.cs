@@ -6,7 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = "mongodb+srv://Emilio:1234@cluster0.cce9s1o.mongodb.net/";
+var connectionString = builder.Configuration.GetConnectionString("MongoDB") ?? "mongodb://localhost:27017";
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new Exception("No se encontró la cadena de conexión 'MongoDb' en appsettings.json");
+}
+
 var mongoClient = new MongoClient(connectionString);
 var database = mongoClient.GetDatabase("TodoAppDb");
 var todoCollection = database.GetCollection<Todo>("Tareas");
