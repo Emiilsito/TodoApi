@@ -43,11 +43,8 @@ app.MapHub<TodoHub>("/todohub");
 
 var todoItems = app.MapGroup("/todoitems");
 
-todoItems.MapGet("/", async (IMongoCollection<Todo> col, IHubContext<TodoHub> hubContext) =>
-{
-    await col.Find(_ => true).ToListAsync();
-    await hubContext.Clients.All.SendAsync("ReceiveRefresh");
-});
+todoItems.MapGet("/", async (IMongoCollection<Todo> col) =>
+    await col.Find(_ => true).ToListAsync());
     
 
 todoItems.MapPost("/", async (Todo todo, IMongoCollection<Todo> col, IHubContext<TodoHub> hubContext) =>
