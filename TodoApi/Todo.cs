@@ -8,7 +8,6 @@ public class Todo
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
-
     public int TareaCodigo { get; set; }
 
     public string? Name { get; set; }
